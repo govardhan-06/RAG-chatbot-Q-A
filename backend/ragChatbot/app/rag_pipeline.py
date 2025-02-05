@@ -9,6 +9,13 @@ def generate_llm_response(retrieved_text, query):
     """Generate final response using OpenAI LLM"""
     # GROQ_API_KEY = settings.GROQ_API_KEY
     llm = ChatGroq(model="llama-3.3-70b-versatile",api_key=os.getenv("GROQ_API_KEY"))
+
+    if len(retrieved_text)==0:
+        return {"answer": "No context found."}
+    
+    if len(retrieved_text) > 5000:
+        retrieved_text = retrieved_text[:5000]
+
     prompt = f"Context: {retrieved_text}\n\nUser Query: {query}\n\nAnswer:"
     
     response = response = llm.invoke(prompt)
