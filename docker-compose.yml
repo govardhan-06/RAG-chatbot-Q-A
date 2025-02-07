@@ -1,0 +1,40 @@
+version: "3.8"
+
+services:
+  db:
+    image: ankane/pgvector
+    container_name: pgvector-db
+    restart: always
+    environment:
+      POSTGRES_USER: local
+      POSTGRES_PASSWORD: 1234
+      POSTGRES_DB: ragChatBot
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+
+  backend:
+    build: ./backend/ragChatbot
+    container_name: django_backend
+    restart: always
+    depends_on:
+      - db
+    environment:
+      DATABASE_URL: "postgres://local:1234@db:5432/ragChatBot"
+      HF_TOKEN: ${HF_TOKEN}
+    ports:
+      - "8000:8000"
+
+  frontend:
+    build: ./frontend/rag-chat-assistant
+    container_name: react_frontend
+    restart: always
+    depends_on:
+      - backend
+    ports:
+      - "3000:3000"
+
+volumes:
+  postgres_data:
