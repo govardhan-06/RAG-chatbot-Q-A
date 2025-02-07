@@ -28,8 +28,6 @@ git clone https://github.com/govardhan-06/RAG-chatbot-Q-A.git
 cd RAG-chatbot-Q-A
 ```
 
-````
-
 2. Create .env file in ragChatbot directory:
 
 ```env
@@ -80,4 +78,3 @@ MIT License
 ## Author
 
 Govardhan A R
-````
