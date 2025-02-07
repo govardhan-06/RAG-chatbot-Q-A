@@ -2,6 +2,9 @@
 
 A full-stack application that implements a Retrieval-Augmented Generation (RAG) chatbot. Users can upload PDF documents and ask questions about their content. The system uses vector embeddings and LLM to provide accurate responses based on the document content.
 
+Deployment: (Website)[https://rag-chatbot-q-a.vercel.app]
+Project Summary: (Doc)[https://docs.google.com/document/d/1EixDcw8XpriTAFFSycB9pkhbKVXixdzlqeoYFMkxRlQ/edit?usp=sharing]
+
 ## Features
 
 - PDF document upload and processing
