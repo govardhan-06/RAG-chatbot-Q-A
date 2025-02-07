@@ -59,7 +59,6 @@ class QueryView(APIView):
 
         # Perform vector similarity search
         try:
-            # connection = psycopg2.connect("dbname="+os.getenv("DB_NAME")+" user="+os.getenv("DB_USER")+" password="+os.getenv("DB_PASS"))
             with connection.cursor() as cursor:
                 cursor.execute("""
                     SELECT text_chunk 

@@ -10,7 +10,11 @@ interface UploadResponse {
     message: string;
 }
 
-const API_URL = 'http://127.0.0.1:8000/api';
+const API_URL = process.env.REACT_APP_BACKEND_URL;
+
+if (!API_URL) {
+    throw new Error('REACT_APP_BACKEND_URL is not defined');
+}
 
 export const uploadFile = async (file: File): Promise<UploadResponse> => {
     const formData = new FormData();
