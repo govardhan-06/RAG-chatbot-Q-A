@@ -10,16 +10,27 @@ A full-stack application that implements a Retrieval-Augmented Generation (RAG) 
 - Real-time chat interface
 - Docker containerization for easy deployment
 
-## Prerequisites
+### Prerequisites
 
+- Git
 - Docker and Docker Compose
-- Mistral AI API key
-- Groq API key
-- Hugging Face token
+- API Keys:
+  - Groq API key
+  - Mistral AI API key
+  - Hugging Face token
 
-## Environment Setup
+### Installation
 
-1. Create a `.env` file in the `backend/ragChatbot/` directory with the following variables:
+1. Clone the repository
+
+```bash
+git clone https://github.com/govardhan-06/RAG-chatbot-Q-A.git
+cd RAG-chatbot-Q-A
+```
+
+````
+
+2. Create .env file in ragChatbot directory:
 
 ```env
 GROQ_API_KEY="your_groq_api_key"
@@ -32,99 +43,35 @@ DB_USER="local"
 DB_PASS="1234"
 ```
 
-````
+3. Start the application using Docker:
 
-## Running with Docker
-
-1. Build and start the containers:
-
-```sh
+```bash
 docker-compose up --build
 ```
 
-This will start three containers:
+This will start:
 
-- PostgreSQL database with pgvector extension (port 5432)
+- PostgreSQL database with pgvector (port 5432)
 - Django backend (port 8000)
 - React frontend (port 3000)
 
-2. Access the application:
+4. Access the application:
 
-- Frontend: [http://localhost:3000](http://localhost:3000)
-- Backend API: [http://localhost:8000/api](http://localhost:8000/api)
+- Frontend: http://localhost:3000
+- Backend API: http://localhost:8000/api
 
-## API Endpoints
+## Usage
 
-- `POST /api/upload/`: Upload PDF documents
-- `POST /api/query/`: Send questions about uploaded documents
+1. Upload a PDF document using the interface
+2. Wait for the document to be processed and embedded
+3. Ask questions about the document content in the chat interface
 
-## Project Structure
+## Technologies
 
-```
-.
-├── backend/
-│   └── ragChatbot/
-│       ├── app/
-│       │   ├── models.py      # Database models
-│       │   ├── utils.py       # PDF processing and embeddings
-│       │   ├── views.py       # API endpoints
-│       │   └── rag_pipeline.py # LLM integration
-│       └── Dockerfile
-├── frontend/
-│   └── rag-chat-assistant/
-│       ├── src/
-│       │   ├── components/    # React components
-│       │   ├── contexts/      # React contexts
-│       │   ├── styles/        # CSS styles
-│       │   └── utils/         # API integration
-│       └── Dockerfile
-└── docker-compose.yml
-```
-
-## Development
-
-To run the application in development mode:
-
-1. Start the database:
-
-```sh
-docker-compose up db
-```
-
-2. Run the backend (from backend/ragChatbot/):
-
-```sh
-python manage.py runserver
-```
-
-3. Run the frontend (from frontend/rag-chat-assistant/):
-
-```sh
-npm install
-npm start
-```
-
-## Technologies Used
-
-- **Frontend**:
-
-  - React.js
-  - TypeScript
-  - Axios
-  - CSS3
-
-- **Backend**:
-
-  - Django
-  - Django REST Framework
-  - pgvector
-  - LangChain
-  - Mistral AI
-  - Groq
-
-- **Database**:
-  - PostgreSQL
-  - pgvector extension
+- Frontend: React.js, TypeScript
+- Backend: Django, LangChain
+- Database: PostgreSQL with pgvector
+- AI: Mistral AI, Groq
 
 ## License
 
