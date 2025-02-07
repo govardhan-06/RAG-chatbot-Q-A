@@ -1,6 +1,7 @@
 import fitz 
 from langchain_mistralai import MistralAIEmbeddings
 from django.conf import settings
+from tenacity import retry, stop_after_attempt, wait_fixed
 from dotenv import load_dotenv
 import os
 
@@ -11,29 +12,32 @@ def extract_text_from_pdf(pdf_path):
     doc = fitz.open(pdf_path)
     text=""
     for page in doc:
-        text += page.get_text("text") + "\n"
+        text += page.get_text("text")
     doc.close()
     return text
 
-def chunk_text(text, chunk_size=16300):
-    """Split text into chunks of a given size."""
+def chunk_text(text, chunk_size=8192):
+    """Splits text into chunks of a given size while preserving words."""
     words = text.split()
-    return [" ".join(words[i:i + chunk_size]) for i in range(0, len(words), chunk_size)]
+    chunks, word, length = [], "", 0
 
+    for w in words:
+        if length + len(w) < chunk_size:
+            word += (" " if word else "") + w  
+            length += len(w) + 1  
+        else:
+            chunks.append(word)
+            word, length = w, len(w)  
+    if word:
+        chunks.append(word)  
+
+    return chunks
+
+@retry(stop=stop_after_attempt(5), wait=wait_fixed(1))
 def generate_embedding(text):
-    """Generate text embeddings using OpenAI API."""
-    # OPENAI_API_KEY = settings.OPENAI_API_KEY
+    """Generate text embeddings using API."""
     os.environ["HF_TOKEN"] = os.getenv("HF_TOKEN")
     MISTRALAI_API_KEY = os.getenv("MISTRALAI_API_KEY")
     embeddings = MistralAIEmbeddings(model="mistral-embed",api_key=MISTRALAI_API_KEY)
     response=embeddings.embed_query(text)
     return response
-
-if __name__=="__main__":
-    pdf_path = "../../sample.pdf"
-    text = extract_text_from_pdf(pdf_path)
-    text_chunks = chunk_text(text)
-    tetx_chunks = text_chunks[:1]
-    for chunk in text_chunks:
-        embedding = generate_embedding(chunk)
-        print(embedding)

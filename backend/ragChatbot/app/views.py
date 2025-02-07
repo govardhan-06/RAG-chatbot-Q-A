@@ -8,6 +8,7 @@ from .utils import extract_text_from_pdf, generate_embedding, chunk_text
 from .rag_pipeline import generate_llm_response
 from django.core.files.storage import default_storage
 from django.conf import settings
+from django.db import connection
 import psycopg2,os
 
 class DocumentUploadView(APIView):
@@ -33,10 +34,14 @@ class DocumentUploadView(APIView):
         # Save Document
         document = Document.objects.create(text=text)
 
+        print(len(text_chunks))
+
         # Generate and Store Embedding
         for chunk in text_chunks:
+            print(len(chunk))
             embedding = generate_embedding(chunk)
             Embedding.objects.create(document=document, text_chunk=chunk, embedding=embedding)
+            print(f"Embedding for chunk saved")
 
         return Response({"message": "File uploaded and processed", "document_id": document.id})
 
@@ -50,13 +55,15 @@ class QueryView(APIView):
         # Generate query embedding
         query_embedding = generate_embedding(query)
 
+        results=""
+
         # Perform vector similarity search
         try:
-            connection = psycopg2.connect("dbname=ragChatBot user=local password=1234")
+            # connection = psycopg2.connect("dbname="+os.getenv("DB_NAME")+" user="+os.getenv("DB_USER")+" password="+os.getenv("DB_PASS"))
             with connection.cursor() as cursor:
                 cursor.execute("""
                     SELECT text_chunk 
-                    FROM api_embedding
+                    FROM text_embeddings
                     ORDER BY embedding <=> %s::vector 
                     LIMIT 3
                 """, [query_embedding])  
@@ -64,10 +71,6 @@ class QueryView(APIView):
 
         except psycopg2.Error as e:
             print(f"Error occurred while querying the database: {e}")
-
-        finally:
-            if connection:
-                connection.close()
 
         # If relevant documents found, generate response
         if results:

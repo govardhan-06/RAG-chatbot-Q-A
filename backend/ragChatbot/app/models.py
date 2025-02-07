@@ -15,7 +15,7 @@ class Embedding(models.Model):
     embedding = VectorField(dimensions=1024)
 
     class Meta:
-        db_table = 'api_embedding'
+        db_table = 'text_embeddings'
 
     def __str__(self):
         return f"Embedding for Document {self.document.id}"
