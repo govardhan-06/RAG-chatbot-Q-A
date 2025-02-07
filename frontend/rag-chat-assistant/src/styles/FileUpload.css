@@ -1,0 +1,151 @@
+.file-upload {
+  max-width: 320px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+.upload-container {
+  background: #ffffff;
+  border-radius: 8px;
+  margin-top: 0.75rem;
+  padding: 1.25rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  border: 1px solid #e2e8f0;
+}
+
+.file-input-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.file-input-label {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.625rem 1rem;
+  background: #1a365d;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 0.875rem;
+}
+
+.file-input-label:hover {
+  background: #2c5282;
+}
+
+.selected-file {
+  font-size: 0.813rem;
+  color: #4a5568;
+  word-break: break-all;
+  text-align: center;
+  padding: 0.5rem;
+  background: #f7fafc;
+  border-radius: 4px;
+  border: 1px dashed #cbd5e0;
+}
+
+.upload-button {
+  width: 100%;
+  padding: 0.625rem;
+  background: #2b6cb0;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.upload-button:disabled {
+  background: #718096;
+  cursor: not-allowed;
+}
+
+.upload-button:hover:not(:disabled) {
+  background: #2c5282;
+}
+
+.error-message {
+  margin-top: 0.75rem;
+  padding: 0.75rem;
+  background: #fff5f5;
+  border: 1px solid #feb2b2;
+  border-radius: 6px;
+  color: #c53030;
+  font-size: 0.813rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.error-message::before {
+  content: "⚠️";
+}
+
+.success-message {
+  margin-top: 0.75rem;
+  padding: 0.75rem;
+  background: #f0fff4;
+  border: 1px solid #9ae6b4;
+  border-radius: 6px;
+  color: #276749;
+  font-size: 0.813rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.success-message::before {
+  content: "✅";
+}
+
+.uploaded-file-tile {
+  margin-top: 1rem;
+  padding: 0.75rem;
+  background: #f7fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  transition: transform 0.2s ease;
+}
+
+.uploaded-file-tile:hover {
+  transform: translateY(-2px);
+}
+
+.pdf-icon {
+  font-size: 1.5rem;
+  color: #2b6cb0;
+}
+
+.file-details {
+  flex: 1;
+  min-width: 0;
+}
+
+.file-name {
+  margin: 0;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #2d3748;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.file-size {
+  margin: 0.25rem 0 0;
+  font-size: 0.75rem;
+  color: #718096;
+}
+
+.hidden-input {
+  display: none;
+}
